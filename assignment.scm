@@ -21,26 +21,23 @@
           (< x (car L)))
       (cons x L)
       (cons (car L) (insert x (cdr L)))))
-;; 3.Base Case: 
-;; When M is empty, return L since there are no more elements to be inserted.
+;; 3. Base Case: If L is empty, return M.
 ;;
 ;; Assumption:
 ;; We assume that insert-all can correctly insert the tail of M (cdr M) into L.
-;;
-;; Step:
-;; In the current step, we take the first element of M, insert it into L using the insert function,
-;; and then recursively call insert-all to insert the rest of M into the new L.
-;;
+;;; Step: Insert the first element of L into M and recurse with the rest of L.
 ;; Otherwise:
 ;; This is essentially the inverse of the base case, i.e., when M is not empty, we perform the recursive step.
+;;;(insert-all '(3 6 1 5 2 7 4) '())
 (define (insert-all L M)
-  (if (null? M)
-      L (insert-all (insert (car M) L) (cdr M))))
+  (if (null? L) M 
+      (insert-all (cdr L) (insert (car L) M)))) 
+
 ;;; 4.Base Case: If L is empty or x is smaller than (car L), insert x at the beginning.
 ;;; Assumption: (insert x M) correctly inserts x into a list M smaller than L.
 ;;; Step: Compare x with (car L). If x is less, insert x before (car L). 
 ;;; Otherwise, recursively attempt to insert x into (cdr L).
-
+;;; (sort '(3 6 1 5 2 7 4))
 (define (sort L)
   (letrec ((insert (lambda (x L)
                      (if (or (null? L) (< x (car L)))
